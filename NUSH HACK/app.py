@@ -6,8 +6,8 @@ from supabase import create_client, Client
 app = Flask(__name__)
 
 # --- CONFIGURATION ---
-SUPABASE_URL = "https://supabase.co" 
-SUPABASE_KEY = "your-supabase-anon-key" 
+SUPABASE_URL = "https://hmbzvsragayrwcttntla.supabase.co" 
+SUPABASE_KEY = "sb_secret_3S4-ka7JcA-2BRTC6Jb-lw_BKfTEdfv" 
 LOCAL_DB_FILE = "server_database.json"
 
 # --- INITIALIZE SUPABASE CLIENT ---
