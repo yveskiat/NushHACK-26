@@ -1,20 +1,24 @@
 import os
 import json
+from dotenv import load_dotenv
 from flask import Flask, request, jsonify, render_template
 from supabase import create_client, Client
+
+# Load .env from next to this file, regardless of the working directory
+load_dotenv(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env"))
 
 app = Flask(__name__)
 
 # --- CONFIGURATION ---
-SUPABASE_URL = "https://hmbzvsragayrwcttntla.supabase.co" 
-SUPABASE_KEY = "sb_secret_3S4-ka7JcA-2BRTC6Jb-lw_BKfTEdfv" 
+SUPABASE_URL = os.getenv("SUPABASE_URL", "")
+SUPABASE_KEY = os.getenv("SUPABASE_KEY", "")
 LOCAL_DB_FILE = "server_database.json"
 
 # --- INITIALIZE SUPABASE CLIENT ---
 try:
-    # Ensure placeholder values aren't triggering invalid initialization crashes
-    if "your-supabase" in SUPABASE_URL or not SUPABASE_URL:
-        raise ValueError("Supabase placeholders detected.")
+    # Ensure missing or placeholder values aren't triggering invalid initialization crashes
+    if not SUPABASE_URL or not SUPABASE_KEY or "your-supabase" in SUPABASE_URL:
+        raise ValueError("Supabase credentials missing or still placeholders.")
     supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
     print("[INIT] Connected securely to Supabase Cloud Client.")
 except Exception as e:
@@ -86,6 +90,22 @@ def sync_data():
     except Exception as e:
         print(f"[FATAL SYNC CRASH] Endpoint structural failure: {str(e)}")
         return jsonify({"status": "error", "message": str(e)}), 500
+
+# --- ROUTE 3: LATEST STATE FOR DEVICE-TO-DEVICE SYNC (GET) ---
+@app.route('/state', methods=['GET'])
+def get_state():
+    if not supabase:
+        return jsonify({"text": read_from_local_db()}), 200
+
+    try:
+        result = supabase.table("documents").select("content").eq("id", 1).execute()
+        text = result.data[0].get("content", "") if result.data else ""
+        return jsonify({"text": text or ""}), 200
+    except Exception as e:
+        # Don't fall back to the local file here: it can be older than what this
+        # device is showing, and browsers would overwrite newer text with it.
+        print(f"[DATABASE ERROR] Supabase state read failed: {e}")
+        return jsonify({"status": "error", "message": "Cloud database unavailable."}), 503
 
 if __name__ == '__main__':
     # Locks port 5001 to bypass AirPlay port 5000 bottlenecks
