@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cross-Browser Offline Workspace</title>
+    <!-- Tells Flask to lookup your stylesheet from the static/css/ folder -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <!-- Dynamic network state connection badge managed by JavaScript -->
+    <div id="statusBanner" class="status-banner online">Detecting system connection status...</div>
+
+    <div class="app-container">
+        <h3>Supabase Cloud Workspace</h3>
+        
+        <!-- Flask drops your central database string right into the text box body here -->
+        <textarea id="userInput" placeholder="Start typing... everything auto-saves instantly and syncs across browsers on refresh!">{{ initial_text }}</textarea>
+
+        <!-- Live syncing state tracer flag -->
+        <div class="sync-indicator" id="syncStatus">Connected & synced with cloud server</div>
+    </div>
+
+    <!-- Tells Flask to execute your offline sync engine from the static/js/ folder -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

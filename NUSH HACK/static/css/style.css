@@ -1,0 +1,91 @@
+/* Core Document Foundations */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body { 
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+    background-color: #f3f4f6; 
+    color: #1f2937; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Network Connection State Banner Wrapper */
+.status-banner { 
+    width: 100%;
+    padding: 14px; 
+    font-weight: 600; 
+    text-align: center; 
+    font-size: 14px; 
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.online { 
+    background-color: #d1fae5; 
+    color: #065f46; 
+    border-bottom: 1px solid #a7f3d0; 
+}
+
+.offline { 
+    background-color: #fee2e2; 
+    color: #991b1b; 
+    border-bottom: 1px solid #fca5a5; 
+}
+
+/* App Container and Card Structure */
+.app-container {
+    width: 100%;
+    max-width: 550px; 
+    margin: 40px auto; 
+    padding: 24px; 
+    background: #ffffff; 
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+h3 {
+    font-size: 18px;
+    margin-bottom: 16px;
+    color: #374151;
+    font-weight: 600;
+}
+
+/* Real-time Workspace Textarea Formatting */
+textarea { 
+    width: 100%; 
+    height: 220px; 
+    padding: 16px; 
+    border: 1px solid #d1d5db; 
+    border-radius: 8px; 
+    font-size: 16px; 
+    line-height: 1.5;
+    resize: vertical; 
+    color: #1f2937;
+    background-color: #f9fafb;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+    background-color: #ffffff;
+}
+
+/* Dynamic Badge Status Indicator Formatting */
+.sync-indicator { 
+    margin-top: 14px;
+    font-size: 13px; 
+    color: #4b5563; 
+    text-align: center; 
+    background: #f3f4f6; 
+    padding: 10px; 
+    border-radius: 6px; 
+    font-weight: 500;
+}
